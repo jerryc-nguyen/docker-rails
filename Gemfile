@@ -1,54 +1,127 @@
 source 'https://rubygems.org'
+ruby '~> 2.5.3'
 
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-  "https://github.com/#{repo_name}.git"
-end
-
+gem 'dotenv-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.0'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
-# Use Puma as the app server
-gem 'puma', '~> 3.7'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+gem 'rails', '5.1.0'
+gem 'pg', '0.18.4'
+gem 'groupdate'
 
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
-# Use ActiveModel has_secure_password
+gem 'oj'
+gem 'active_model_serializers', '~> 0.10.5'
+gem 'redis'
+gem 'redis-rails'
+gem 'sidekiq'
+
+gem 'i18n-js'
+gem 'devise', git: 'https://github.com/plataformatec/devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem 'koala'
+gem 'geokit'
+gem 'rest-client'
+gem 'mechanize'
+
+gem 'firebase'
+gem 'sendgrid-ruby'
+gem 'rollbar'
+
+gem 'mini_magick'
+gem 'carrierwave'
+gem 'carrierwave-aws'
+gem 'carrierwave-base64'
+
+gem 'fastimage'
+
+gem 'amazon-ecs'
+#https://github.com/jtescher/carrierwave-imageoptimizer
+gem 'sparkpost_rails', git: 'https://github.com/the-refinery/sparkpost_rails'
+
+gem 'haml-rails', '~> 0.9'
 # gem 'bcrypt', '~> 3.1.7'
+gem 'will_paginate'
+gem 'friendly_id', '~> 5.1.0'
+gem 'paranoia', '~> 2.2'
+gem 'counter_culture', '~> 0.1.33'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+# gem 'ransack', git: 'https://github.com/activerecord-hackery/ransack'
 
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '~> 2.13.0'
-  gem 'selenium-webdriver'
-end
+# gem 'public_activity'
+gem 'awesome_nested_set', git: 'https://github.com/jerryc-nguyen/awesome_nested_set'
+gem 'acts-as-taggable-on', git: 'https://github.com/mbleigh/acts-as-taggable-on'
+gem 'acts_rateable', git: 'https://github.com/jerryc-nguyen/acts_rateable'
+gem 'acts_as_commentable_with_threading'
+gem 'acts_as_votable', '~> 0.10.0'
+gem 'acts_as_follower', git: 'https://github.com/brchristian/acts_as_follower', :branch => 'patch-1'
+gem 'wupee', git: 'https://github.com/jerryc-nguyen/wupee'
+
+gem 'jquery-rails'
+gem 'turbolinks'
+gem 'sass-rails', '~> 5.0.0'
+gem 'uglifier', '>= 1.3.0'
+
+gem 'coffee-rails'
+gem 'semantic-ui-sass', '~>2.3.0.0'
+# gem 'jquery-atwho-rails'
+gem 'font-awesome-rails'
+gem 'js-routes'
+
+# gem 'webpacker', github: 'rails/webpacker'
+# gem 'react-rails'
+
+gem 'auto_html', '~>1.6.4'
+gem 'sanitize'
+
+gem 'config'
+gem 'whenever', :require => false
+gem 'druuid', '~> 1.0.2'
+gem 'jwt'
+
+gem 'swagger-docs'
+gem 'datagrid'
+gem 'activeadmin'
+gem 'lazyload-rails'
+gem 'meta-tags'
+gem 'browser'
+gem 'will_paginate_semantic_ui'
+gem 'sitemap_generator'
+
+# CSS styled emails without the hassle. Use to separate HTML & CSS in email clients.
+# Read more: https://github.com/fphilipe/premailer-rails
+gem 'premailer-rails'
+gem 'fuzzy-string-match'
+gem 'puma_worker_killer'
+gem 'slack-notifier'
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'byebug'
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'better_errors'
+  gem 'letter_opener'
+  gem 'rails-erd'
+  gem 'faker'
+  gem 'populator'
+  gem 'bullet'
+
+  #== install local only!
+  gem 'mina', require: false
+  gem 'mina-puma', require: false
+  gem 'mina-whenever', require: false
+  gem 'mina-logs', require: false
+  gem 'mina-sidekiq', '1.0.1', require: false
+  #===
+
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+group :development, :test do
+end
+
+group :production do
+  gem 'rails_12factor'
+end
+
+
+
