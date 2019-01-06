@@ -1,3 +1,7 @@
+#volumns:
+#docker volume create --name app-postgres
+#docker volume create --name app-redis
+
 postgres:
   image: postgres:10.6
   environment:
