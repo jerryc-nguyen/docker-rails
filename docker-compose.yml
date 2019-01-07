@@ -5,12 +5,14 @@
 postgres:
   image: postgres:10.6
   environment:
-    POSTGRES_USER: app
-    POSTGRES_PASSWORD: yourpassword
+    POSTGRES_USER: $POSTGRES_USER
+    POSTGRES_PASSWORD: $POSTGRES_PASSWORD
   ports:
     - '5000:5432'
   volumes:
     - app-postgres:/var/lib/postgresql/data
+  env_file:
+    - .docker-env.development
 
 redis:
   image: redis:5.0
@@ -19,17 +21,23 @@ redis:
   volumes:
     - app-redis:/var/lib/redis/data
 
-app:
+nginx:
+  build: .
+  dockerfile: nginx.Dockerfile
+  links:
+    - web
+  ports:
+    - "8000:80"
+
+web:
   build: .
   links:
     - postgres
     - redis
   volumes:
-    - .:/app
+    - .:/my_app_development
   ports:
     - '3000:3000'
-  env_file:
-    - .env.development
 
 sidekiq:
   build: .
@@ -38,6 +46,5 @@ sidekiq:
     - postgres
     - redis
   volumes:
-    - .:/app
-  env_file:
-    - .env.development
+    - .:/my_app_development
+

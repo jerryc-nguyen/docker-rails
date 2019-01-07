@@ -2,7 +2,7 @@ FROM ruby:2.5.3-slim
 LABEL author="jerryc.nguyen91@gmail.com"
 
 # Setup environment variables that will be available to the instance
-ENV APP_HOME /app
+ENV APP_HOME /my_app_development
 
 # Installation of dependencies
 RUN apt-get update -qq && apt-get install -y git-core build-essential libpq-dev nodejs && apt-get clean autoclean && rm -rf /var/lib/apt /var/lib/dpkg /var/lib/cache /var/lib/log
