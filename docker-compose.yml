@@ -1,26 +1,3 @@
-#volumns:
-#docker volume create --name app-postgres
-#docker volume create --name app-redis
-
-postgres:
-  image: postgres:10.6
-  environment:
-    POSTGRES_USER: $POSTGRES_USER
-    POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-  ports:
-    - '5555:5432'
-  volumes:
-    - app-postgres:/var/lib/postgresql/data
-  env_file:
-    - .docker-env.development
-
-redis:
-  image: redis:5.0
-  ports:
-    - '6000:6379'
-  volumes:
-    - app-redis:/var/lib/redis/data
-
 nginx:
   build: .
   dockerfile: nginx.Dockerfile
@@ -31,9 +8,6 @@ nginx:
 
 web:
   build: .
-  links:
-    - postgres
-    - redis
   volumes:
     - .:/my_app_development
   ports:
@@ -42,37 +16,34 @@ web:
 sidekiq:
   build: .
   command: bundle exec sidekiq -C config/sidekiq.yml
-  links:
-    - postgres
-    - redis
   volumes:
     - .:/my_app_development
 
-elasticsearch:
-  image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
-  environment:
-    - cluster.name=docker-cluster
-    - bootstrap.memory_lock=true
-    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    - xpack.security.enabled=false
-    - xpack.monitoring.enabled=false
-    - xpack.graph.enabled=false
-    - xpack.watcher.enabled=false
-  ulimits:
-    memlock:
-      soft: -1
-      hard: -1
-  volumes:
-    - app-es:/usr/share/elasticsearch/data
-  ports:
-    - 9200:9200
+# elasticsearch:
+#   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+#   environment:
+#     - cluster.name=docker-cluster
+#     - bootstrap.memory_lock=true
+#     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#     - xpack.security.enabled=false
+#     - xpack.monitoring.enabled=false
+#     - xpack.graph.enabled=false
+#     - xpack.watcher.enabled=false
+#   ulimits:
+#     memlock:
+#       soft: -1
+#       hard: -1
+#   volumes:
+#     - app-es:/usr/share/elasticsearch/data
+#   ports:
+#     - 9200:9200
 
-elasticsearch-hq:
-  image: elastichq/elasticsearch-hq
-  # container_name: elasticsearch-hq
-  environment:
-    - HQ_DEFAULT_URL=http://elasticsearch:9200
-  ports:
-    - 5000:5000
-  links:
-    - elasticsearch
+# elasticsearch-hq:
+#   image: elastichq/elasticsearch-hq
+#   # container_name: elasticsearch-hq
+#   environment:
+#     - HQ_DEFAULT_URL=http://elasticsearch:9200
+#   ports:
+#     - 5000:5000
+#   links:
+#     - elasticsearch
