@@ -24,7 +24,6 @@ gem 'rest-client'
 gem 'mechanize'
 
 gem 'firebase'
-gem 'sendgrid-ruby'
 gem 'rollbar'
 
 gem 'mini_magick'
@@ -33,21 +32,14 @@ gem 'carrierwave-aws'
 gem 'carrierwave-base64'
 
 gem 'fastimage'
-
-gem 'amazon-ecs'
-#https://github.com/jtescher/carrierwave-imageoptimizer
 gem 'sparkpost_rails', git: 'https://github.com/the-refinery/sparkpost_rails'
 
-gem 'haml-rails', '~> 0.9'
-# gem 'bcrypt', '~> 3.1.7'
+gem 'haml-rails', '~> 1'
 gem 'will_paginate'
 gem 'friendly_id', '~> 5.1.0'
 gem 'paranoia', '~> 2.2'
 gem 'counter_culture', '~> 0.1.33'
 
-# gem 'ransack', git: 'https://github.com/activerecord-hackery/ransack'
-
-# gem 'public_activity'
 gem 'acts-as-taggable-on', '~> 6.0'
 gem 'acts_rateable', git: 'https://github.com/jerryc-nguyen/acts_rateable'
 gem 'acts_as_commentable_with_threading'
@@ -62,14 +54,12 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'coffee-rails'
 gem 'semantic-ui-sass', '~>2.3.0.0'
-# gem 'jquery-atwho-rails'
 gem 'font-awesome-rails'
 gem 'js-routes'
 
 # gem 'webpacker', github: 'rails/webpacker'
 # gem 'react-rails'
 
-gem 'auto_html', '~>1.6.4'
 gem 'sanitize'
 
 gem 'config'
@@ -78,7 +68,6 @@ gem 'druuid', '~> 1.0.2'
 gem 'jwt'
 
 gem 'swagger-docs'
-gem 'datagrid'
 gem 'activeadmin'
 gem 'lazyload-rails'
 gem 'meta-tags'
