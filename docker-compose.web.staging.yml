@@ -1,0 +1,14 @@
+web:
+  build: .
+  dockerfile: ./web.staging.Dockerfile
+  volumes:
+    - .:/my_app_staging
+  ports:
+    - '4000:4000'
+
+sidekiq:
+  build: .
+  dockerfile: ./web.staging.Dockerfile
+  command: bundle exec sidekiq -C config/sidekiq.yml
+  volumes:
+    - .:/my_app_staging

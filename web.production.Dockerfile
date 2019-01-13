@@ -5,8 +5,6 @@ LABEL author="jerryc.nguyen91@gmail.com"
 ENV APP_HOME /my_app_production
 ENV RAILS_ENV production
 ENV RACK_ENV production
-ENV RAILS_SERVE_STATIC_FILES true
-ENV RAILS_LOG_TO_STDOUT true
 
 # Installation of dependencies
 RUN apt-get update -qq && apt-get install -y git-core build-essential libpq-dev nodejs && apt-get clean autoclean && rm -rf /var/lib/apt /var/lib/dpkg /var/lib/cache /var/lib/log
