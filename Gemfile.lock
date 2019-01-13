@@ -7,28 +7,11 @@ GIT
       activerecord (>= 4.0)
 
 GIT
-  remote: https://github.com/jerryc-nguyen/acts_rateable
-  revision: 822ac30629fab59c99adfc0aa00b516e1830a43a
-  specs:
-    acts_rateable (0.1.3)
-
-GIT
   remote: https://github.com/jerryc-nguyen/wupee
   revision: bbc94b8706fb7e3082e152f4c3cabe3a3077fd6a
   specs:
     wupee (2.0.6)
       jbuilder (~> 2.0)
-
-GIT
-  remote: https://github.com/plataformatec/devise
-  revision: 62703943bef75aba09ec3e346aba4c9159300ecd
-  specs:
-    devise (4.5.0)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 4.1.0, < 6.0)
-      responders
-      warden (~> 1.2.3)
 
 GIT
   remote: https://github.com/the-refinery/sparkpost_rails
@@ -180,6 +163,12 @@ GEM
     css_parser (1.6.0)
       addressable
     deep_merge (1.2.1)
+    devise (4.5.0)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0, < 6.0)
+      responders
+      warden (~> 1.2.3)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.5.0)
@@ -562,7 +551,6 @@ DEPENDENCIES
   acts_as_commentable_with_threading
   acts_as_follower!
   acts_as_votable (~> 0.12.0)
-  acts_rateable!
   better_errors
   browser
   bullet
@@ -573,7 +561,7 @@ DEPENDENCIES
   coffee-rails
   config
   counter_culture (~> 0.1.33)
-  devise!
+  devise (= 4.5.0)
   dotenv-rails
   druuid (~> 1.0.2)
   faker
@@ -636,4 +624,4 @@ RUBY VERSION
    ruby 2.5.3p105
 
 BUNDLED WITH
-   1.16.6
+   1.17.3

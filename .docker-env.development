@@ -1,3 +1,17 @@
+# Server
+RAILS_ENV=development
+RACK_ENV=development
+
+# Puma
+WEB_CONCURRENCY=1
+MAX_THREADS=5
+PUMA_PORT=3000
+
+# Puma Worker Killer
+PWK_TOTAL_RAM=8000
+PWK_RAM_PERCENT=0.6
+
+# Rails
 SECRET_TOKEN=asecuretokenwouldnormallygohere
 DATABASE_URL=postgresql://postgres:postgres@192.168.1.8:5432/docker_rails?encoding=utf8&pool=5&timeout=5000
 CACHE_URL=redis://192.168.1.8:6379/0
