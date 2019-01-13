@@ -9,8 +9,6 @@ nginx:
 web:
   build: .
   dockerfile: ./web.production.Dockerfile
-  volumes:
-    - .:/my_app_production
   ports:
     - '3000:3000'
   env_file:
@@ -20,8 +18,6 @@ sidekiq:
   build: .
   dockerfile: ./web.production.Dockerfile
   command: bundle exec sidekiq -C config/sidekiq.yml
-  volumes:
-    - .:/my_app_production
   env_file:
     - .env.production
 
