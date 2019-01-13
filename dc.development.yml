@@ -1,23 +1,31 @@
 nginx:
   build: .
-  dockerfile: nginx.Dockerfile
+  dockerfile: ./nginx.Dockerfile
   links:
     - web
   ports:
     - "8000:80"
+  env_file:
+    - .docker-env.development
 
 web:
   build: .
+  dockerfile: ./web.development.Dockerfile
   volumes:
     - .:/my_app_development
   ports:
     - '3000:3000'
+  env_file:
+    - .docker-env.development
 
 sidekiq:
   build: .
+  dockerfile: ./web.development.Dockerfile
   command: bundle exec sidekiq -C config/sidekiq.yml
   volumes:
     - .:/my_app_development
+  env_file:
+    - .docker-env.development
 
 # elasticsearch:
 #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
