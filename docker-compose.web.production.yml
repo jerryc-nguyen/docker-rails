@@ -1,6 +1,6 @@
 nginx:
   build: .
-  dockerfile: ./nginx.Dockerfile
+  dockerfile: ./nginx.production.Dockerfile
   links:
     - web
   ports:
