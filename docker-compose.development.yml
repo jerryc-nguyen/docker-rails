@@ -43,8 +43,6 @@ services:
     container_name: docker-rails-web
     volumes:
       - "./docker/volumes/web/conf.d/:/etc/nginx/conf.d"
-    env_file:
-      - .env.production
     environment:
       - VIRTUAL_HOST=localhost
       - VIRTUAL_NETWORK=nginx-proxy
