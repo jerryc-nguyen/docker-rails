@@ -6,7 +6,7 @@ services:
     image: nginx
     container_name: nginx
     ports:
-      - "80:80"
+      - "8000:80"
       - "443:443"
     volumes:
       - "/etc/nginx/conf.d"
@@ -39,15 +39,15 @@ services:
 
   web:
     restart: always
-    image: docker-rails
-    build: .
-    container_name: docker-rails
+    image: registry.gitlab.com/jerryc.nguyen91/docker-rails:production
+    container_name: docker-rails-web
     volumes:
       - "./docker/volumes/web/conf.d/:/etc/nginx/conf.d"
-      - "./docker/volumes/config/sample-website/config.js:/usr/share/nginx/html/config.js"
+    env_file:
+      - .env.production
     environment:
-      - VIRTUAL_HOST=samplewebsite.example.com
+      - VIRTUAL_HOST=localhost
       - VIRTUAL_NETWORK=nginx-proxy
       - VIRTUAL_PORT=80
-      - LETSENCRYPT_HOST=docker.obook.co
+      - LETSENCRYPT_HOST=localhost
       - LETSENCRYPT_EMAIL=jerryc.nguyen91@gmail.com
