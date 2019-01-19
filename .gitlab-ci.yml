@@ -3,11 +3,6 @@ image: tico/docker
 stages:
   - deploy
 
-variables:
-  TARGET_HOST: ubuntu@13.229.109.27
-  TARGET_PATH: /var/app
-  TARGET_BRANCH: master #branch to build and deploy
-
 .up: &up
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
@@ -44,6 +39,9 @@ deploy:
   environment:
     name: production
     url: https://docker.obook.co
+  variables:
+    TARGET_HOST: ubuntu@13.229.109.27
+    TARGET_PATH: /var/app
 
   <<: *deploy
   <<: *tags
