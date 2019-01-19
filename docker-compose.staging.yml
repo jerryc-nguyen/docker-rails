@@ -37,33 +37,18 @@ services:
     environment:
       - NGINX_DOCKER_GEN_CONTAINER=nginx-gen
 
-  production_web:
-    restart: always
-    image: registry.gitlab.com/jerryc.nguyen91/docker-rails:production
-    container_name: production_web
-    ports:
-      - "3000:3000"
-    volumes:
-      - "./docker/volumes/web/conf.d/:/etc/nginx/conf.d"
-    environment:
-      - VIRTUAL_HOST=docker.obook.co
-      - VIRTUAL_NETWORK=nginx-proxy
-      - VIRTUAL_PORT=80
-      - LETSENCRYPT_HOST=docker.obook.co
-      - LETSENCRYPT_EMAIL=jerryc.nguyen91@gmail.com
-
-  staging_web:
+  web:
     restart: always
     image: registry.gitlab.com/jerryc.nguyen91/docker-rails:staging
-    container_name: production_web
+    container_name: staging_web
     ports:
       - "3000:3000"
     volumes:
       - "./docker/volumes/web/conf.d/:/etc/nginx/conf.d"
     environment:
-      - VIRTUAL_HOST=beta.obook.co
+      - VIRTUAL_HOST=docker-staging.obook.co
       - VIRTUAL_NETWORK=nginx-proxy
       - VIRTUAL_PORT=80
-      - LETSENCRYPT_HOST=beta.obook.co
+      - LETSENCRYPT_HOST=docker-staging.obook.co
       - LETSENCRYPT_EMAIL=jerryc.nguyen91@gmail.com
 

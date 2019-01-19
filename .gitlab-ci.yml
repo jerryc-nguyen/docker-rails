@@ -51,7 +51,7 @@ deploy_production:
   script:
     - cibu prepare-ssh
     - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
-    - scp -r /builds/$CI_PROJECT_PATH/docker-compose.yml $TARGET_HOST:/var/app/production_app
+    - scp -r /builds/$CI_PROJECT_PATH/docker-compose.production.yml $TARGET_HOST:/var/app/production_app
     - cibu compose pull
     - cibu compose update production_web
     - cibu compose up -d --no-deps --no-recreate
@@ -71,7 +71,7 @@ deploy_staging:
   script:
     - cibu prepare-ssh
     - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
-    - scp -r /builds/$CI_PROJECT_PATH/docker-compose.yml $TARGET_HOST:/var/app/staging_app
+    - scp -r /builds/$CI_PROJECT_PATH/docker-compose.staging.yml $TARGET_HOST:/var/app/staging_app
     - cibu compose pull
     - cibu compose update staging_web
     - cibu compose up -d --no-deps --no-recreate
