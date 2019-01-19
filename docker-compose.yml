@@ -12,7 +12,7 @@ services:
       - "/etc/nginx/conf.d"
       - "/etc/nginx/vhost.d"
       - "/usr/share/nginx/html"
-      - "./volumes/proxy/certs:/etc/nginx/certs:ro"
+      - "./docker/volumes/proxy/certs:/etc/nginx/certs:ro"
 
   nginx-gen:
     restart: always
@@ -20,7 +20,7 @@ services:
     container_name: nginx-gen
     volumes:
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
-      - "./volumes/proxy/templates/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro"
+      - "./docker/volumes/proxy/templates/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro"
     volumes_from:
       - nginx
     entrypoint: /usr/local/bin/docker-gen -notify-sighup nginx -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
@@ -33,21 +33,37 @@ services:
       - nginx
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./volumes/proxy/certs:/etc/nginx/certs:rw"
+      - "./docker/volumes/proxy/certs:/etc/nginx/certs:rw"
     environment:
       - NGINX_DOCKER_GEN_CONTAINER=nginx-gen
 
-  web:
+  production_web:
     restart: always
     image: registry.gitlab.com/jerryc.nguyen91/docker-rails:production
-    container_name: docker-rails-web
+    container_name: production_web
     ports:
       - "3000:3000"
     volumes:
-      - "./volumes/web/conf.d/:/etc/nginx/conf.d"
+      - "./docker/volumes/web/conf.d/:/etc/nginx/conf.d"
     environment:
       - VIRTUAL_HOST=docker.obook.co
       - VIRTUAL_NETWORK=nginx-proxy
       - VIRTUAL_PORT=80
       - LETSENCRYPT_HOST=docker.obook.co
       - LETSENCRYPT_EMAIL=jerryc.nguyen91@gmail.com
+
+  staging_web:
+    restart: always
+    image: registry.gitlab.com/jerryc.nguyen91/docker-rails:staging
+    container_name: production_web
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./docker/volumes/web/conf.d/:/etc/nginx/conf.d"
+    environment:
+      - VIRTUAL_HOST=beta.obook.co
+      - VIRTUAL_NETWORK=nginx-proxy
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=beta.obook.co
+      - LETSENCRYPT_EMAIL=jerryc.nguyen91@gmail.com
+
