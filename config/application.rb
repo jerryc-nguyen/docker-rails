@@ -17,7 +17,7 @@ module DockerRails
 
     # Since we're using Redis for Sidekiq, we might as well use Redis to back
     # our cache store. This keeps our application stateless as well.
-    config.cache_store = :redis_store, ENV['CACHE_URL'],
+    config.cache_store = :redis_store, ENV['REDIS_CACHE_URL'],
                          { namespace: 'app::cache' }
 
     # If you've never dealt with background workers before, this is the Rails
