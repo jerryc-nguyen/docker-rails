@@ -1,7 +1,7 @@
 image: tico/docker
 
 stages:
-  - build
+  # - build
   - deploy
 
 .up: &up
@@ -56,7 +56,7 @@ deploy_production:
     - ssh $TARGET_HOST cd $TARGET_PATH; rm -rf docker
     - ssh $TARGET_HOST cd $TARGET_PATH; mkdir docker
     - scp -r /builds/$CI_PROJECT_PATH/docker-compose.production.yml $TARGET_HOST:/var/app/production_app
-    - scp -r /builds/$CI_PROJECT_PATH/docker/* $TARGET_HOST:/var/app/production_app/docker
+    - scp -r /builds/$CI_PROJECT_PATH/docker $TARGET_HOST:/var/app/production_app/docker
     - cibu compose pull
     - cibu compose update web
     - cibu compose up -d
