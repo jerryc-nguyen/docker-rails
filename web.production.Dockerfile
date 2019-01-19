@@ -31,6 +31,9 @@ COPY . $APP_HOME
 # Precompile assets
 RUN bundle exec rake assets:precompile
 
+# Migrate DB
+RUN bundle exec rake db:migrate
+
 EXPOSE 3000
 
 # Run our app
