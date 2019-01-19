@@ -1,13 +1,15 @@
 FROM ruby:2.5.3-slim
 LABEL author="jerryc.nguyen91@gmail.com"
 
-ARG DATABASE_URL
+ARG DOCKER_RAILS_DATABASE_URL
+ARG SECRET_KEY_BASE
 
 # Setup environment variables that will be available to the instance
 ENV APP_HOME /my_app_production
 ENV RAILS_ENV production
 ENV RACK_ENV production
-ENV DATABASE_URL "${DATABASE_URL}"
+ENV DATABASE_URL "${DOCKER_RAILS_DATABASE_URL}"
+ENV SECRET_KEY_BASE "${SECRET_KEY_BASE}"
 
 # Installation of dependencies
 RUN apt-get update -qq && apt-get install -y git-core build-essential libpq-dev nodejs && apt-get clean autoclean && rm -rf /var/lib/apt /var/lib/dpkg /var/lib/cache /var/lib/log
