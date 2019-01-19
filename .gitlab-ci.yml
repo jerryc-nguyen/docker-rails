@@ -44,6 +44,7 @@ deploy_production:
     - master
   variables:
     TARGET_HOST: ubuntu@13.229.109.27
+    TARGET_PATH: /var/app/production_app
   environment:
     name: production
     url: https://docker.obook.co
@@ -63,6 +64,7 @@ deploy_staging:
     - staging
   variables:
     TARGET_HOST: ubuntu@13.229.109.27
+    TARGET_PATH: /var/app/staging_app
   environment:
     name: staging
     url: https://beta.obook.co
