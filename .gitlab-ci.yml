@@ -6,7 +6,6 @@ stages:
 
 .up: &up
   before_script:
-    - if [ "$CI_COMMIT_REF_NAME" != "$TARGET_BRANCH" ]; then exit 0; fi
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
 .tags: &tags
@@ -21,6 +20,7 @@ build-production:
     - docker:dind
   <<: *up
   script:
+    - if [ "$BUILD_PRODUCTION" != "true" ]; then exit 0; fi
     #- docker build -f web.production.Dockerfile --build-arg DATABASE_URL=$PRODUCTION_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
     - docker build -f web.production.Dockerfile -t $CI_REGISTRY_IMAGE --build-arg DATABASE_URL=$PRODUCTION_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
     - docker push $CI_REGISTRY_IMAGE
@@ -34,6 +34,7 @@ build-staging:
     - docker:dind
   <<: *up
   script:
+    - if [ "$BUILD_STAGING" != "true" ]; then exit 0; fi
     #- docker build -f web.staging.Dockerfile --build-arg DATABASE_URL=$STAGING_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
     - docker build -f web.staging.Dockerfile -t $CI_REGISTRY_IMAGE --build-arg DATABASE_URL=$STAGING_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
     - docker push $CI_REGISTRY_IMAGE
