@@ -56,8 +56,8 @@ deploy_production:
     - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
     - ssh $TARGET_HOST cd $TARGET_PATH; rm -rf docker
     - ssh $TARGET_HOST cd $TARGET_PATH; mkdir docker
-    - scp -r /builds/$CI_PROJECT_PATH/docker-compose.production.yml $TARGET_HOST:/var/app/production_app
-    - scp -r /builds/$CI_PROJECT_PATH/docker/ $TARGET_HOST:/var/app/production_app/docker
+    - scp /builds/$CI_PROJECT_PATH/docker-compose.production.yml $TARGET_HOST:$TARGET_PATH
+    - scp -r /builds/$CI_PROJECT_PATH/docker $TARGET_HOST:$TARGET_PATH
     - cibu compose pull
     - cibu compose update web
     - cibu compose up -d
