@@ -25,7 +25,6 @@ build-production:
     - docker push $CI_REGISTRY_IMAGE
   <<: *tags
 
-
 build-staging:
   stage: build
   only:
@@ -53,7 +52,7 @@ deploy_production:
     - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
     - scp -r /builds/$CI_PROJECT_PATH/docker_compose.yml $TARGET_HOST:/var/app/production_app
     - cibu compose pull
-    - cibu compose update web
+    - cibu compose update production_web
     - cibu compose up -d --no-deps --no-recreate
     - cibu compose cleanup
   <<: *tags
@@ -72,7 +71,7 @@ deploy_staging:
     - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
     - scp -r /builds/$CI_PROJECT_PATH/docker_compose.yml $TARGET_HOST:/var/app/staging_app
     - cibu compose pull
-    - cibu compose update web
+    - cibu compose update staging_web
     - cibu compose up -d --no-deps --no-recreate
     - cibu compose cleanup
   <<: *tags
