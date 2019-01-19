@@ -4,7 +4,7 @@ stages:
   - deploy
 
 variables:
-  TARGET_PATH: /root/app
+  TARGET_PATH: /var/app
   TARGET_BRANCH: master #branch to build and deploy
 
 .up: &up
@@ -43,8 +43,6 @@ deploy:
   environment:
     name: production
     url: https://docker.obook.co
-  variables:
-    TARGET_HOST: docker.obook.co
-    SENTRY_RELEASE: $CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
+
   <<: *deploy
   <<: *tags
