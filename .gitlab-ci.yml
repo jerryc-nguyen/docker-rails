@@ -24,13 +24,13 @@ variables:
   tags:
     - docker
 
-build:
+build-production:
   stage: build
   services:
     - docker:dind
   <<: *up
   script:
-    - docker build -f web.production.Dockerfile -t $CI_REGISTRY_IMAGE .
+    - docker build -f web.production.Dockerfile -t $CI_REGISTRY_IMAGE --build-arg DATABASE_URL=$DATABASE_URL_PRODUCTION .
     - docker push $CI_REGISTRY_IMAGE
   <<: *tags
 
@@ -39,7 +39,7 @@ deploy:
   only:
     - master
   environment:
-    name: prod
+    name: production
     url: https://docker.obook.co
   variables:
     TARGET_HOST: docker.obook.co
