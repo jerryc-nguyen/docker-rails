@@ -2,46 +2,72 @@ image: tico/docker
 
 stages:
   - deploy
+  - staging
 
 .up: &up
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
-.deploy: &deploy
+build-production:
+  stage: build
+  only:
+    - master
+  services:
+    - docker:dind
+  <<: *up
   script:
-    - cibu prepare-ssh
-    - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
-    - scp -r /builds/$CI_PROJECT_PATH/* ubuntu@13.229.109.27:/var/app
-    - cibu compose pull
-    - cibu compose update web
-    - cibu compose up -d --no-deps --no-recreate
-    - cibu compose cleanup
-
-.tags: &tags
+    #- docker build -f web.production.Dockerfile --build-arg DATABASE_URL=$PRODUCTION_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
+    - docker build -f web.production.Dockerfile -t $CI_REGISTRY_IMAGE --build-arg DATABASE_URL=$DATABASE_URL_PRODUCTION --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
+    - docker push $CI_REGISTRY_IMAGE
   tags:
-    - docker
+    - production
 
-# build-production:
-#   stage: build
-#   services:
-#     - docker:dind
-#   <<: *up
-#   script:
-#     #- docker build -f web.production.Dockerfile --build-arg DATABASE_URL=$PRODUCTION_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
-#     - docker build -f web.production.Dockerfile -t $CI_REGISTRY_IMAGE --build-arg DATABASE_URL=$DOCKER_RAILS_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
-#     - docker push $CI_REGISTRY_IMAGE
-#   <<: *tags
+build-staging:
+  stage: build
+  only:
+    - staging
+  services:
+    - docker:dind
+  <<: *up
+  script:
+    #- docker build -f web.staging.Dockerfile --build-arg DATABASE_URL=$PRODUCTION_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
+    - docker build -f web.staging.Dockerfile -t $CI_REGISTRY_IMAGE --build-arg DATABASE_URL=$DATABASE_URL_STAGING --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
+    - docker push $CI_REGISTRY_IMAGE
+  tags:
+    - staging
 
-deploy:
+deploy_production:
   stage: deploy
   only:
     - master
   environment:
     name: production
     url: https://docker.obook.co
-  variables:
-    TARGET_HOST: ubuntu@13.229.109.27
-    TARGET_PATH: /var/app
+  script:
+    - cibu prepare-ssh
+    - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
+    - scp -r /builds/$CI_PROJECT_PATH/* $PRODUCTION_TARGET_HOST:/var/app/production_app
+    - cibu compose pull
+    - cibu compose update web
+    - cibu compose up -d --no-deps --no-recreate
+    - cibu compose cleanup
+  tags:
+    - production
 
-  <<: *deploy
-  <<: *tags
+deploy_staging:
+  stage: deploy
+  only:
+    - staging
+  environment:
+    name: staging
+    url: https://beta.obook.co
+  script:
+    - cibu prepare-ssh
+    - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
+    - scp -r /builds/$CI_PROJECT_PATH/* STAGING_TARGET_HOST:/var/app/staging_app
+    - cibu compose pull
+    - cibu compose update web
+    - cibu compose up -d --no-deps --no-recreate
+    - cibu compose cleanup
+  tags:
+    - staging
