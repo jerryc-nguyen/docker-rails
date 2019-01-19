@@ -12,11 +12,9 @@ variables:
   script:
     - cibu prepare-ssh
     - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
-    - sed -i "s/RELEASE_PLACEHOLDER/${SENTRY_RELEASE}/g" env/$CI_ENVIRONMENT_SLUG.yml
-    - ssh $TARGET_HOST mkdir -p $TARGET_PATH
-    - scp env/$CI_ENVIRONMENT_SLUG.yml $TARGET_HOST:$TARGET_PATH/docker-compose.yml
+    - scp -r $CI_PROJECT_PATH $TARGET_HOST:$TARGET_PATH
     - cibu compose pull
-    - cibu compose update app
+    - cibu compose update web
     - cibu compose up -d --no-deps --no-recreate
     - cibu compose cleanup
 
