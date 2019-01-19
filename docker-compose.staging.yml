@@ -39,7 +39,7 @@ services:
 
   web:
     restart: always
-    image: registry.gitlab.com/jerryc.nguyen91/docker-rails:staging
+    image: registry.gitlab.com/jerryc.nguyen91/docker-rails:production
     container_name: staging_web
     ports:
       - "3000:3000"
