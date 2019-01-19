@@ -22,8 +22,8 @@ build-production:
   script:
     - if [ "$BUILD_PRODUCTION" != "true" ]; then exit 0; fi
     #- docker build -f web.production.Dockerfile --build-arg DATABASE_URL=$PRODUCTION_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
-    - docker build -f web.production.Dockerfile -t $CI_REGISTRY_IMAGE --build-arg DATABASE_URL=$PRODUCTION_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
-    - docker push $CI_REGISTRY_IMAGE
+    - docker build -f web.production.Dockerfile -t $CI_REGISTRY_IMAGE:production --build-arg DATABASE_URL=$PRODUCTION_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
+    - docker push $CI_REGISTRY_IMAGE:production
   <<: *tags
 
 build-staging:
@@ -36,8 +36,8 @@ build-staging:
   script:
     - if [ "$BUILD_STAGING" != "true" ]; then exit 0; fi
     #- docker build -f web.staging.Dockerfile --build-arg DATABASE_URL=$STAGING_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
-    - docker build -f web.staging.Dockerfile -t $CI_REGISTRY_IMAGE --build-arg DATABASE_URL=$STAGING_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
-    - docker push $CI_REGISTRY_IMAGE
+    - docker build -f web.staging.Dockerfile -t $CI_REGISTRY_IMAGE:staging --build-arg DATABASE_URL=$STAGING_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
+    - docker push $CI_REGISTRY_IMAGE:staging
   <<: *tags
 
 deploy_production:
