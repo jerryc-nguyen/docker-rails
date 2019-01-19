@@ -40,7 +40,7 @@ services:
   web:
     restart: always
     image: registry.gitlab.com/jerryc.nguyen91/docker-rails:production
-    container_name: production_web
+    container_name: web
     ports:
       - "3000:3000"
     volumes:
