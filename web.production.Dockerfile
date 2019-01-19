@@ -2,7 +2,7 @@ FROM ruby:2.5.3-slim
 LABEL author="jerryc.nguyen91@gmail.com"
 
 ARG DOCKER_RAILS_DATABASE_URL
-ARG SECRET_KEY_BASE
+ARG SECRET_KEY_BASE=78b372a0ed9ef83ec5e1686485df723a3db60ed56fd4654e2b2c11bf9953cb410ab82a4a618e4a27a9eb01340da960ccedb8d52f438c653268146e8e9db669b2
 
 # Setup environment variables that will be available to the instance
 ENV APP_HOME /my_app_production
