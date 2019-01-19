@@ -1,6 +1,7 @@
 image: tico/docker
 
 stages:
+  - build
   - deploy
 
 .up: &up
