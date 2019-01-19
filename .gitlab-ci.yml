@@ -1,0 +1,49 @@
+image: tico/docker
+
+variables:
+  TARGET_PATH: /root/app
+  TARGET_BRANCH: master #branch to build and deploy
+
+.up: &up
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker-compose up -d
+
+.deploy: &deploy
+  script:
+    - cibu prepare-ssh
+    - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
+    - sed -i "s/RELEASE_PLACEHOLDER/${SENTRY_RELEASE}/g" env/$CI_ENVIRONMENT_SLUG.yml
+    - ssh $TARGET_HOST mkdir -p $TARGET_PATH
+    - scp env/$CI_ENVIRONMENT_SLUG.yml $TARGET_HOST:$TARGET_PATH/docker-compose.yml
+    - cibu compose pull
+    - cibu compose update app
+    - cibu compose up -d --no-deps --no-recreate
+    - cibu compose cleanup
+
+.tags: &tags
+  tags:
+    - docker
+
+build:
+  stage: build
+  services:
+    - docker:dind
+  <<: *up
+  script:
+    - docker build -f web.production.Dockerfile -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
+  <<: *tags
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  environment:
+    name: prod
+    url: https://docker.obook.co
+  variables:
+    TARGET_HOST: docker.obook.co
+    SENTRY_RELEASE: $CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
+  <<: *deploy
+  <<: *tags
