@@ -4,6 +4,7 @@ stages:
   - deploy
 
 variables:
+  TARGET_HOST: ubuntu@13.229.109.27
   TARGET_PATH: /var/app
   TARGET_BRANCH: master #branch to build and deploy
 
@@ -15,7 +16,7 @@ variables:
   script:
     - cibu prepare-ssh
     - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
-    - scp -i $SSH_PRIVATE_KEY -r $CI_PROJECT_PATH/* $TARGET_HOST:$TARGET_PATH
+    - scp -r $CI_PROJECT_PATH/* $TARGET_HOST:$TARGET_PATH
     - cibu compose pull
     - cibu compose update web
     - cibu compose up -d --no-deps --no-recreate
