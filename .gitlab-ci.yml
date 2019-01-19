@@ -8,6 +8,10 @@ stages:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
+.tags: &tags
+  tags:
+    - docker
+
 build-production:
   stage: build
   only:
@@ -19,8 +23,8 @@ build-production:
     #- docker build -f web.production.Dockerfile --build-arg DATABASE_URL=$PRODUCTION_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
     - docker build -f web.production.Dockerfile -t $CI_REGISTRY_IMAGE --build-arg DATABASE_URL=$DATABASE_URL_PRODUCTION --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
     - docker push $CI_REGISTRY_IMAGE
-  tags:
-    - production
+  <<: *tags
+
 
 build-staging:
   stage: build
@@ -33,8 +37,7 @@ build-staging:
     #- docker build -f web.staging.Dockerfile --build-arg DATABASE_URL=$PRODUCTION_DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
     - docker build -f web.staging.Dockerfile -t $CI_REGISTRY_IMAGE --build-arg DATABASE_URL=$DATABASE_URL_STAGING --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE .
     - docker push $CI_REGISTRY_IMAGE
-  tags:
-    - staging
+  <<: *tags
 
 deploy_production:
   stage: deploy
@@ -51,8 +54,7 @@ deploy_production:
     - cibu compose update web
     - cibu compose up -d --no-deps --no-recreate
     - cibu compose cleanup
-  tags:
-    - production
+  <<: *tags
 
 deploy_staging:
   stage: deploy
@@ -69,5 +71,4 @@ deploy_staging:
     - cibu compose update web
     - cibu compose up -d --no-deps --no-recreate
     - cibu compose cleanup
-  tags:
-    - staging
+  <<: *tags
