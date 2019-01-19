@@ -6,6 +6,7 @@ stages:
 
 .up: &up
   before_script:
+    - if [ "$CI_COMMIT_REF_NAME" != "$TARGET_BRANCH" ]; then exit 0; fi
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
 .tags: &tags
@@ -43,6 +44,7 @@ deploy_production:
   only:
     - master
   variables:
+    TARGET_BRANCH: master
     TARGET_HOST: ubuntu@13.229.109.27
     TARGET_PATH: /var/app/production_app
   environment:
@@ -51,8 +53,10 @@ deploy_production:
   script:
     - cibu prepare-ssh
     - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
+    - ssh $TARGET_HOST cd $TARGET_PATH; rm -rf docker
+    - ssh $TARGET_HOST cd $TARGET_PATH; mkdir docker
     - scp -r /builds/$CI_PROJECT_PATH/docker-compose.production.yml $TARGET_HOST:/var/app/production_app
-    - scp -r /builds/$CI_PROJECT_PATH/docker/volumes/* $TARGET_HOST:/var/app/production_app/docker/volumes
+    - scp -r /builds/$CI_PROJECT_PATH/docker/* $TARGET_HOST:/var/app/production_app/docker
     - cibu compose pull
     - cibu compose update web
     - cibu compose up -d
@@ -64,6 +68,7 @@ deploy_staging:
   only:
     - staging
   variables:
+    TARGET_BRANCH: staging
     TARGET_HOST: ubuntu@13.229.109.27
     TARGET_PATH: /var/app/staging_app
   environment:
