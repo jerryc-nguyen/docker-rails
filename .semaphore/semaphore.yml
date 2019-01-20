@@ -16,7 +16,10 @@ blocks:
       - name: "Deploying"
         commands:
           - checkout
-          - echo "Run CI image."
-          - docker run tico/docker
+          - echo "Setup CIBU."
+          - curl -L https://github.com/titanium-codes/cibu/archive/master.zip > /tmp/cibu.zip
+          - unzip /tmp/cibu.zip -d /tmp && mkdir -p /opt/cibu
+          - mv /tmp/cibu-master/cibu/* /opt/cibu/ && mv /tmp/cibu-master/bin /usr/local/bin/cibu
+          - rm -rf /tmp/cibu* && chmod +x /usr/local/bin/*
           - ls -1
           - cibu prepare-ssh
