@@ -39,7 +39,7 @@ blocks:
           - sudo mv /tmp/cibu-master/cibu/* /opt/cibu/ && sudo mv /tmp/cibu-master/bin /usr/local/bin/cibu
           - sudo rm -rf /tmp/cibu* && sudo chmod +x /usr/local/bin/*
           - echo "Deploying >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-          - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin $DOCKER_REGISTRY
+          - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin $DOCKER_REGISTRY
           - cibu compose pull
           - cibu compose update web
           - cibu compose up -d
