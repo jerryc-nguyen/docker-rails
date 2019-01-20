@@ -13,13 +13,21 @@ blocks:
           value: prod
       jobs:
 
-      - name: "Deploying"
+      - name: "Setup CIBU"
         commands:
           - checkout
-          - echo "Setup CIBU."
           - curl -L https://github.com/titanium-codes/cibu/archive/master.zip > /tmp/cibu.zip
           - unzip /tmp/cibu.zip -d /tmp && sudo mkdir -p /opt/cibu
           - sudo mv /tmp/cibu-master/cibu/* /opt/cibu/ && sudo mv /tmp/cibu-master/bin /usr/local/bin/cibu
           - sudo rm -rf /tmp/cibu* && sudo chmod +x /usr/local/bin/*
           - ls -1
+
+      - name: "Deploying"
+        commands:
+          - checkout
           - cibu prepare-ssh
+          - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin registry.gitlab.com
+          - cibu compose pull
+          - cibu compose update web
+          - cibu compose up -d
+          - cibu compose cleanup

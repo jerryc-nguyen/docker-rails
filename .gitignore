@@ -28,3 +28,4 @@
 
 /docker/volumes
 /keys/
+.semaphore/ci-secrets.yml
