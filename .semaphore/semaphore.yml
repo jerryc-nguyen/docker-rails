@@ -39,9 +39,13 @@ blocks:
           - sudo rm -rf /tmp/cibu* && sudo chmod +x /usr/local/bin/*
           - echo "Deploying"
           - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin registry.gitlab.com
+
           - echo -e "Host *\n\tStrictHostKeyChecking no" > ~/.ssh/config
+          - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          - chmod 600 ~/.ssh/id_rsa
           - eval $(ssh-agent -s)
           - ssh-add
+
           - cibu compose pull
           - cibu compose update web
           - cibu compose up -d
