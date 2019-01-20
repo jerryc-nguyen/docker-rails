@@ -20,14 +20,14 @@ blocks:
           - ssh-add ~/.keys/*
           - checkout
       env_vars:
-        - name: APP_ENV
-          value: prod
         - name: TARGET_BRANCH
           value: master
         - name: TARGET_HOST
           value: ubuntu@13.229.109.27
         - name: TARGET_PATH
           value: /var/app/production_app
+        - name: DEPLOYMENT_GIT_REPO
+          value: git@github.com:jerryc-nguyen/docker-rails.git
 
       jobs:
       - name: "Deploying"
@@ -38,10 +38,8 @@ blocks:
           - unzip /tmp/cibu.zip -d /tmp && sudo mkdir -p /opt/cibu
           - sudo mv /tmp/cibu-master/cibu/* /opt/cibu/ && sudo mv /tmp/cibu-master/bin /usr/local/bin/cibu
           - sudo rm -rf /tmp/cibu* && sudo chmod +x /usr/local/bin/*
-          - echo '!!!!!!'
-          - cd $SEMAPHORE_GIT_DIR
-          - ls -1
-          - curl https://raw.githubusercontent.com/jerryc-nguyen/docker-rails/master/docker-compose.yml > docker-compose.yml
+          - echo '!!!!!! $SEMAPHORE_GIT_URL'
+          - git clone DEPLOYMENT_GIT_REPO deploy && cd deploy && scp docker-compose.yml $TARGET_HOST:$TARGET_PATH/docker-compose.yml
           - echo "Deploying >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
           - echo "--username $DOCKER_USERNAME - $DOCKER_PASSWORD - $DOCKER_REGISTRY"
           - echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME --password-stdin $DOCKER_REGISTRY
