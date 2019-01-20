@@ -39,7 +39,7 @@ blocks:
           - sudo rm -rf /tmp/cibu* && sudo chmod +x /usr/local/bin/*
           - echo "Deploying"
           - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin registry.gitlab.com
-          - cibu compose pull
+          - yes | cibu compose pull
           - cibu compose update web
           - cibu compose up -d
           - cibu compose cleanup
