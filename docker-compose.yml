@@ -45,6 +45,8 @@ services:
       - "3000:3000"
     volumes:
       - "./docker/volumes/web/conf.d/:/etc/nginx/conf.d"
+    env_file:
+      - .env
     environment:
       - VIRTUAL_HOST=docker.obook.co
       - VIRTUAL_NETWORK=nginx-proxy
