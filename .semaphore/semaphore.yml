@@ -21,6 +21,13 @@ blocks:
       env_vars:
         - name: APP_ENV
           value: prod
+        - name: TARGET_BRANCH
+          value: master
+        - name: TARGET_HOST
+          value: ubuntu@13.229.109.27
+        - name: TARGET_PATH
+          value: /var/app/production_app
+
       jobs:
       - name: "Deploying"
         commands:
