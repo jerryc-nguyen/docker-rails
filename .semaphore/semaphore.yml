@@ -8,11 +8,12 @@ agent:
 blocks:
   - name: "Deploy production"
     task:
+      secrets:
+        - name: ci-secrets
       env_vars:
         - name: APP_ENV
           value: prod
       jobs:
-
       - name: "Deploying"
         commands:
           - echo "Setup CIBU"
