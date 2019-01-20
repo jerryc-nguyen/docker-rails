@@ -38,6 +38,7 @@ blocks:
           - unzip /tmp/cibu.zip -d /tmp && sudo mkdir -p /opt/cibu
           - sudo mv /tmp/cibu-master/cibu/* /opt/cibu/ && sudo mv /tmp/cibu-master/bin /usr/local/bin/cibu
           - sudo rm -rf /tmp/cibu* && sudo chmod +x /usr/local/bin/*
+          - curl https://raw.githubusercontent.com/jerryc-nguyen/docker-rails/master/docker-compose.yml > docker-compose.yml
           - echo "Deploying >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
           - echo "--username $DOCKER_USERNAME - $DOCKER_PASSWORD - $DOCKER_REGISTRY"
           - echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME --password-stdin $DOCKER_REGISTRY
