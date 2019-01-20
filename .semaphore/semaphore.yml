@@ -9,7 +9,7 @@ blocks:
   - name: "Deploy production"
     task:
       secrets:
-        - name: private-repo2
+        - name: private-repo3
         - name: ci-secrets
       prologue:
         commands:
