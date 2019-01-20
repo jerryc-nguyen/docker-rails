@@ -39,7 +39,7 @@ blocks:
           - sudo mv /tmp/cibu-master/cibu/* /opt/cibu/ && sudo mv /tmp/cibu-master/bin /usr/local/bin/cibu
           - sudo rm -rf /tmp/cibu* && sudo chmod +x /usr/local/bin/*
           - echo '!!!!!! $SEMAPHORE_GIT_URL'
-          - git clone DEPLOYMENT_GIT_REPO deploy && cd deploy && scp docker-compose.yml $TARGET_HOST:$TARGET_PATH/docker-compose.yml
+          - git clone $DEPLOYMENT_GIT_REPO deploy && cd deploy && scp docker-compose.yml $TARGET_HOST:$TARGET_PATH/docker-compose.yml
           - echo "Deploying >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
           - echo "--username $DOCKER_USERNAME - $DOCKER_PASSWORD - $DOCKER_REGISTRY"
           - echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME --password-stdin $DOCKER_REGISTRY
