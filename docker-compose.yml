@@ -39,7 +39,7 @@ services:
 
   web:
     restart: always
-    image: registry.gitlab.com/jerryc.nguyen91/docker-rails-demo:production
+    image: repo.treescale.com/nhannv/docker-rails:production
     container_name: web
     ports:
       - "3000:3000"
