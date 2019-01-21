@@ -45,5 +45,6 @@ blocks:
           - echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME --password-stdin $DOCKER_REGISTRY
           - cibu compose pull
           - cibu compose update web
+          - cibu compose update sidekiq
           - cibu compose up -d
           - cibu compose cleanup

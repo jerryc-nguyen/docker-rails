@@ -54,3 +54,10 @@ services:
       - LETSENCRYPT_HOST=docker.obook.co
       - LETSENCRYPT_EMAIL=jerryc.nguyen91@gmail.com
 
+  sidekiq:
+    restart: always
+    image: repo.treescale.com/nhannv/docker-rails:production
+    container_name: sidekiq
+    env_file:
+      - .env.development
+    command: bundle exec sidekiq -C config/sidekiq.yml
