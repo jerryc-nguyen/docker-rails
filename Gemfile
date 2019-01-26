@@ -82,7 +82,7 @@ gem 'puma_worker_killer'
 gem 'slack-notifier'
 
 group :development do
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
   gem 'byebug'
   gem 'spring'
   gem 'better_errors'

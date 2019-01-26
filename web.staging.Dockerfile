@@ -2,11 +2,9 @@ FROM ruby:2.5.3-slim
 LABEL author="jerryc.nguyen91@gmail.com"
 
 # Setup environment variables that will be available to the instance
-ENV APP_HOME /my_app_staging
+ENV APP_HOME /app
 ENV RAILS_ENV staging
 ENV RACK_ENV staging
-ENV RAILS_SERVE_STATIC_FILES true
-ENV RAILS_LOG_TO_STDOUT true
 
 # Installation of dependencies
 RUN apt-get update -qq && apt-get install -y git-core build-essential libpq-dev nodejs && apt-get clean autoclean && rm -rf /var/lib/apt /var/lib/dpkg /var/lib/cache /var/lib/log
@@ -21,7 +19,7 @@ WORKDIR $APP_HOME
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
 
-# Bundle Gems
+# Bundle Gems only for staging
 RUN bundle install --jobs 20 --retry 5 --without development test
 
 # Copy over our application code
@@ -33,7 +31,11 @@ RUN bundle exec rake assets:precompile
 # Migrate DB
 RUN bundle exec rake db:migrate
 
-EXPOSE 4000
+# Create sidekiq PIDS
+RUN cd tmp && mkdir pids && cd pids && touch sidekiq.pid
+
+EXPOSE 3000
 
 # Run our app
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+

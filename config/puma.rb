@@ -6,14 +6,15 @@ threads threads_count, threads_count
 # HTTP interface
 port ENV.fetch("PUMA_PORT") { 4000 }
 
-stdout_redirect(stdout = '/dev/stdout', stderr = '/dev/stderr', append = true)
+unless ENV['RAILS_ENV'] == 'development'
+  stdout_redirect(stdout = '/dev/stdout', stderr = '/dev/stderr', append = true)
+end
 
 on_worker_boot do
   require "active_record"
   ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
   ActiveRecord::Base.establish_connection
 end
-
 
 before_fork do
   require 'puma_worker_killer'

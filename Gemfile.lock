@@ -580,7 +580,7 @@ DEPENDENCIES
   koala
   lazyload-rails
   letter_opener
-  listen (>= 3.0.5, < 3.2)
+  listen
   mechanize
   meta-tags
   mina

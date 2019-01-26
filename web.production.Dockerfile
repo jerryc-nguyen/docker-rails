@@ -2,7 +2,7 @@ FROM ruby:2.5.3-slim
 LABEL author="jerryc.nguyen91@gmail.com"
 
 # Setup environment variables that will be available to the instance
-ENV APP_HOME /my_app_production
+ENV APP_HOME /app
 ENV RAILS_ENV production
 ENV RACK_ENV production
 
@@ -19,7 +19,7 @@ WORKDIR $APP_HOME
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
 
-# Bundle Gems
+# Bundle Gems only for production
 RUN bundle install --jobs 20 --retry 5 --without development test
 
 # Copy over our application code
