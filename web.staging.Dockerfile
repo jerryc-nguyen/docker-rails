@@ -7,7 +7,13 @@ ENV RAILS_ENV staging
 ENV RACK_ENV staging
 
 # Installation of dependencies
-RUN apt-get update -qq && apt-get install -y git-core build-essential libpq-dev nodejs && apt-get clean autoclean && rm -rf /var/lib/apt /var/lib/dpkg /var/lib/cache /var/lib/log
+RUN apt-get update -qq && apt-get install -y git-core build-essential libpq-dev nodejs && apt-get clean autoclean
+
+# Image magic
+RUN apt-get install imagemagick libmagickcore-dev libmagickwand-dev
+
+# Cleanup installation
+RUN rm -rf /var/lib/apt /var/lib/dpkg /var/lib/cache /var/lib/log
 
 # Create a directory for our application
 # and set it as the working directory
@@ -32,6 +38,7 @@ RUN bundle exec rake assets:precompile
 RUN bundle exec rake db:migrate
 
 # Create sidekiq PIDS
+RUN rm -rf tmp
 RUN cd tmp && mkdir pids && cd pids && touch sidekiq.pid
 
 EXPOSE 3000
