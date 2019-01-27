@@ -1,3 +1,5 @@
-Hello world! Yeah yeah yeh 2
+Hello world! Yeah yeah yeh
 
 <%= CounterJob.perform_now %>
+<% CounterJob.perform_later %>
+<% ApplicationMailer.test.deliver_later  %>
