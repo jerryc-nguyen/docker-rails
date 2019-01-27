@@ -29,12 +29,12 @@ blocks:
         - name: DEPLOYMENT_GIT_REPO
           value: git@github.com:jerryc-nguyen/docker-rails.git
         - name: AUTO_CD
-          value: false
+          value: 'false'
 
       jobs:
       - name: "Deploying"
         commands:
-          - if [ "$AUTO_CD" != "true" ]; then exit 0; fi
+          - if [ "$AUTO_CD" != 'true' ]; then exit 0; fi
           - echo "Setup CIBU >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
           - checkout
           - curl -L https://github.com/titanium-codes/cibu/archive/master.zip > /tmp/cibu.zip
